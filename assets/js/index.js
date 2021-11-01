@@ -2,32 +2,46 @@
 var tasksToDoEl = document.querySelector(".task-list"); 
 var formEl = document.querySelector("#task-form");
 
-var createTaskHandler = function(e) { 
+var taskFormHandler = function(e) { 
     e.preventDefault();
-    var taskinput = document.querySelector("input[name='task-name']")
-    var tasktype = document.querySelector("select[name='task-type']")
+    var taskinput = document.querySelector("input[name='task-name']").value;
+    var tasktype = document.querySelector("select[name='task-type']").value;
 
     // console.log(taskinput.value);
     // console.log(tasktype.value);
-        if(taskinput.value !== ""){
-            //creating the li element and giving it the class
-            var listItemEl = document.createElement("li"); 
-            listItemEl.className = "task-item"; 
-
-            //creating the div that will go inside the li
-            var taskInfo = document.createElement("div");
-            taskInfo.className = "task-info"
-            taskInfo.innerHTML = "<h3 class='task-name'>" + taskinput.value + "</h3><span class='task-type'>" + tasktype.value + "</span>";
-            
-            //adding the div to the li
-            listItemEl.appendChild(taskInfo)
-
-            //adding the entire li element to ul
-            tasksToDoEl.appendChild(listItemEl); 
+    // check if input values are empty strings
+    if (!taskinput || !tasktype) {
+        alert("You need to fill out the task form!");
+        return false;
     }
+    formEl.reset();//this resets the form on every task creation!!!
+    
+    var obj = {
+        name: taskinput,
+        type: tasktype
+    }
+    createTaskEl(obj);
 }; 
 
-formEl.addEventListener("submit", createTaskHandler);
+
+var createTaskEl = function(taskDataObj) {
+    var listItemEl = document.createElement("li"); 
+    listItemEl.className = "task-item"; 
+
+    //creating the div that will go inside the li
+    var taskInfo = document.createElement("div");
+    taskInfo.className = "task-info"
+    taskInfo.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
+    
+    //adding the div to the li
+    listItemEl.appendChild(taskInfo)
+
+    //adding the entire li element to ul
+    tasksToDoEl.appendChild(listItemEl); 
+}
+
+
+formEl.addEventListener("submit", taskFormHandler);
 //this even listener listens to an element with type attribute 
 //submit and gets triggered!! or when the user hots enter
 // on keyboard
