@@ -1,16 +1,20 @@
 
-var buttonEl = document.querySelector("#save-task"); 
 var tasksToDoEl = document.querySelector(".task-list"); 
+var formEl = document.querySelector("#task-form");
 
-var createTaskHandler = function() { 
-var listItemEl = document.createElement("li"); 
-listItemEl.className = "task-item"; 
-listItemEl.textContent = "This is a new task."; 
-tasksToDoEl.appendChild(listItemEl); 
+var createTaskHandler = function(e) { 
+    e.preventDefault();
+    console.log(e);
+    var listItemEl = document.createElement("li"); 
+    listItemEl.className = "task-item"; 
+    listItemEl.textContent = "This is a new task."; 
+    tasksToDoEl.appendChild(listItemEl); 
 }; 
 
-buttonEl.addEventListener("click", createTaskHandler);
-
+formEl.addEventListener("submit", createTaskHandler);
+//this even listener listens to an element with type attribute 
+//submit and gets triggered!! or when the user hots enter
+// on keyboard
 
 
 // function getName(callback){
