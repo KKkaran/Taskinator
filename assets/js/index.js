@@ -4,17 +4,69 @@ var formEl = document.querySelector("#task-form");
 
 var createTaskHandler = function(e) { 
     e.preventDefault();
-    console.log(e);
-    var listItemEl = document.createElement("li"); 
-    listItemEl.className = "task-item"; 
-    listItemEl.textContent = "This is a new task."; 
-    tasksToDoEl.appendChild(listItemEl); 
+    var taskinput = document.querySelector("input[name='task-name']")
+    var tasktype = document.querySelector("select[name='task-type']")
+
+    // console.log(taskinput.value);
+    // console.log(tasktype.value);
+        if(taskinput.value !== ""){
+            //creating the li element and giving it the class
+            var listItemEl = document.createElement("li"); 
+            listItemEl.className = "task-item"; 
+
+            //creating the div that will go inside the li
+            var taskInfo = document.createElement("div");
+            taskInfo.className = "task-info"
+            taskInfo.innerHTML = "<h3 class='task-name'>" + taskinput.value + "</h3><span class='task-type'>" + tasktype.value + "</span>";
+            
+            //adding the div to the li
+            listItemEl.appendChild(taskInfo)
+
+            //adding the entire li element to ul
+            tasksToDoEl.appendChild(listItemEl); 
+    }
 }; 
 
 formEl.addEventListener("submit", createTaskHandler);
 //this even listener listens to an element with type attribute 
 //submit and gets triggered!! or when the user hots enter
 // on keyboard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // function getName(callback){
