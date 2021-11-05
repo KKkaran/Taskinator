@@ -2,7 +2,9 @@
 var tasksToDoEl = document.querySelector(".task-list"); 
 var formEl = document.querySelector("#task-form");
 var pageContentEl = document.querySelector("#page-content");
-
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
+console.log(tasksCompletedEl)
 var taskIdCounter = 0;
 
 var taskFormHandler = function(e) { 
@@ -19,13 +21,32 @@ var taskFormHandler = function(e) {
     }
     formEl.reset();//this resets the form on every task creation!!!
     
-    var obj = {
-        name: taskinput,
-        type: tasktype
+    var isEdit = formEl.hasAttribute("data-task-id")
+    if(isEdit){
+        var taskId = formEl.getAttribute("data-task-id");
+        completeEditTask(taskinput, tasktype, taskId);
+    }else{
+        var obj = {
+            name: taskinput,
+            type: tasktype
+        }
     }
+
     createTaskEl(obj);
 }; 
+var completeEditTask = function(taskName, taskType, taskId) {
+    console.log(taskName, taskType, taskId);
+    // find the matching task list item
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
 
+    // set new values
+    taskSelected.querySelector("h3.task-name").textContent = taskName;
+    taskSelected.querySelector("span.task-type").textContent = taskType;
+
+    alert("Task Updated!");
+    formEl.removeAttribute("data-task-id");
+    document.querySelector("#save-task").textContent = "Add Task";
+  };
 
 var createTaskEl = function(taskDataObj) {
     var listItemEl = document.createElement("li"); 
@@ -117,7 +138,7 @@ var editTask = function (taskId) {
     
 }
 var taskButtonHandler = function(event) {
-    console.log(event.target);
+    console.log(event.target.value);
 
     if(event.target.matches(".edit-btn")){
         var taskId = event.target.getAttribute("data-task-id")
@@ -133,7 +154,29 @@ formEl.addEventListener("submit", taskFormHandler);
 //this even listener listens to an element with type attribute 
 //submit and gets triggered!! or when the user hots enter
 // on keyboard
+
+var taskStatusChangeHandler = function(event){
+    console.log(event.target.value)
+    var taskId = event.target.getAttribute("data-task-id");
+
+    // get the currently selected option's value and convert to lowercase
+    var statusValue = event.target.value.toLowerCase();
+  
+    // find the parent task item element based on the id
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    if (statusValue === "to do") {
+        tasksToDoEl.appendChild(taskSelected);
+      } 
+      else if (statusValue === "in progress") {
+        tasksInProgressEl.appendChild(taskSelected);
+      } 
+      else if (statusValue === "completed") {
+        tasksCompletedEl.appendChild(taskSelected);
+      }
+}
+
 pageContentEl.addEventListener("click", taskButtonHandler);
+pageContentEl.addEventListener("change", taskStatusChangeHandler)
 
 
 
