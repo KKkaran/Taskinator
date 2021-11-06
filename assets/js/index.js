@@ -28,11 +28,13 @@ var taskFormHandler = function(e) {
     }else{
         var obj = {
             name: taskinput,
-            type: tasktype
+            type: tasktype,
+            status: "to do"
         }
     }
 
     createTaskEl(obj);
+    console.log(obj.status)
 }; 
 var completeEditTask = function(taskName, taskType, taskId) {
     console.log(taskName, taskType, taskId);
@@ -138,7 +140,7 @@ var editTask = function (taskId) {
     
 }
 var taskButtonHandler = function(event) {
-    console.log(event.target.value);
+    //console.log(event.target.value);
 
     if(event.target.matches(".edit-btn")){
         var taskId = event.target.getAttribute("data-task-id")
